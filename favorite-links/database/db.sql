@@ -1,3 +1,12 @@
+
+--ERROR!!!!!!!!!!
+--ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+--NO FUNCIONABA CUANDO HACIA EL PRIMER INSERT
+
+--SOLUTION
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dwa544cl';
+
+
 CREATE DATABASE database_links;
 
 USE database_links;
@@ -27,7 +36,7 @@ CREATE TABLE links (
   url VARCHAR(255) NOT NULL,
   description TEXT,
   user_id INT(11),
-  create_at timestamp NOT NULL DEFAULT current_timestamp,
+  created_at timestamp NOT NULL DEFAULT current_timestamp,
   CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) 
 );
 
