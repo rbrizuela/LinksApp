@@ -2,8 +2,12 @@ const express = require('express')                //requerimos express para crea
 const morgan = require('morgan')                  //sirve para mostrar x consola las peticiones que van llegando
 const path = require('path')                      //modulo de node
 const exphbs = require('express-handlebars')      //motor de plantillas
-
 const bodyParser = require('body-parser');
+const flash = require('connect-flash')            //enviar mensajes a traves de las vistas
+const session = require('express-session')
+const MySqlStore = require('express-mysql-session')
+
+const { database } = require('./keys')
 
 //inicializations
 const app = express() //iniciar express
@@ -24,6 +28,14 @@ app.set('view engine', '.hbs')                            //activar el motor de 
 
 
 //middlewares
+app.use(session({
+  secret: 'faztmysqlnodesession',
+  resave: false,
+  saveUninitialized: false,
+  store: new MySqlStore(database)
+}))
+app.use(flash())
+
 app.use(morgan('dev'))
 //NO ME FUNCIONAN LAS RUTAS CON EXPRESS, USO BODY-PARSER
 //app.use(express.urlencoded({extended: false}));//aceptar desde los form los datos que envia el usuario, extended: false solo acepta texto y no imagenes por ejemplo
@@ -31,8 +43,13 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}));//aceptar desde los form los datos que envia el usuario, extended: false solo acepta texto y no imagenes por ejemplo
 app.use(bodyParser.json());//para poder enviar y recibir JSON
 
+
+
 //global variables
 app.use((req, res, next) => {
+
+  app.locals.success = req.flash('success')
+
   next()
 })
 
