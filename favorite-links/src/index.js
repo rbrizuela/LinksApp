@@ -6,12 +6,14 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash')            //enviar mensajes a traves de las vistas
 const session = require('express-session')
 const MySqlStore = require('express-mysql-session')
+const passport = require('passport')
+
 
 const { database } = require('./keys')
 
 //inicializations
 const app = express() //iniciar express
-
+require('./lib/passport')
 
 //settings
 app.set('port', process.env.PORT || 4000)         //en que puerto va funcionar la app
@@ -43,6 +45,8 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}));//aceptar desde los form los datos que envia el usuario, extended: false solo acepta texto y no imagenes por ejemplo
 app.use(bodyParser.json());//para poder enviar y recibir JSON
 
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 //global variables
