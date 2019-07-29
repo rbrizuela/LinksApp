@@ -39,11 +39,16 @@ app.use(session({
 app.use(flash())
 
 app.use(morgan('dev'))
-//NO ME FUNCIONAN LAS RUTAS CON EXPRESS, USO BODY-PARSER
-//app.use(express.urlencoded({extended: false}));//aceptar desde los form los datos que envia el usuario, extended: false solo acepta texto y no imagenes por ejemplo
-//app.use(express.json());//para poder enviar y recibir JSON
-app.use(bodyParser.urlencoded({extended: false}));//aceptar desde los form los datos que envia el usuario, extended: false solo acepta texto y no imagenes por ejemplo
-app.use(bodyParser.json());//para poder enviar y recibir JSON
+app.use(express.urlencoded({extended: false}))//aceptar desde los form los datos que envia el usuario, extended: false solo acepta texto y no imagenes por ejemplo
+app.use(express.json())//para poder enviar y recibir JSON
+
+//NO ME HABIAN FUNCIONADO CON EXPRESS
+//POR ESO HABIA INSTALADO BODY PARSER
+//LAS ULTIMAS VERSIONES DE EXPRESS YA TIENEN ESTA FUNCION INCORPORADA
+// app.use(bodyParser.urlencoded({extended: false}));//aceptar desde los form los datos que envia el usuario, extended: false solo acepta texto y no imagenes por ejemplo
+// app.use(bodyParser.json());//para poder enviar y recibir JSON
+
+
 
 app.use(passport.initialize())
 app.use(passport.session())
